@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Player
@@ -11,11 +12,24 @@ namespace Player
 
         [Header("Jump")] 
         [SerializeField] private float _jumpForce;
+        [SerializeField] private float _groundDistance;
         
         private Rigidbody2D _rigidbody;
+        private CapsuleCollider2D _touchingCollider;
+        private bool _isJumping;
+        
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+            _touchingCollider = GetComponent<CapsuleCollider2D>();
+        }
+
+        private void Update()
+        {
+            if (_isJumping)
+            {
+                UpdateJump();
+            }
         }
 
         public void MoveHorizontally(float horizontalDirection)
@@ -41,7 +55,27 @@ namespace Player
         
         public void Jump()
         {
-            throw new System.NotImplementedException();
+            if(_isJumping) 
+                return;
+            
+            _isJumping = true;
+            _rigidbody.AddForce(Vector2.up * _jumpForce);
+        }
+
+        private void UpdateJump()
+        {
+            if (_rigidbody.velocity.y < 0 && IsGrounded())
+                ResetJump();
+        }
+
+        private bool IsGrounded()
+        {
+            return true;
+        }
+
+        private void ResetJump()
+        {
+            _isJumping = false;
         }
     }
 }
