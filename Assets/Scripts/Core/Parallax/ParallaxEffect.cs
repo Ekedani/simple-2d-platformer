@@ -22,7 +22,7 @@ namespace Core.Parallax
             foreach (var layer in _layers)
             {
                 Vector2 layerPosition = layer.Transform.position;
-                layerPosition.x = layerPosition.x + deltaMovement * layer.Speed;
+                layerPosition.x += deltaMovement * layer.Speed;
                 layer.Transform.position = layerPosition;
             }
 
