@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Player
@@ -10,9 +9,10 @@ namespace Player
         [SerializeField] private float _horizontalSpeed;
         [SerializeField] private bool _faceRight;
 
-        [Header("Jump")] 
+        [Header("Jump")]
         [SerializeField] private float _jumpForce;
-        [SerializeField] private float _groundDistance;
+        [SerializeField] private float _extraHeightTest;
+        [SerializeField] private LayerMask _platformLayerMask;
         
         private Rigidbody2D _rigidbody;
         private CapsuleCollider2D _touchingCollider;
@@ -70,7 +70,14 @@ namespace Player
 
         private bool IsGrounded()
         {
-            return true;
+            RaycastHit2D raycastHit = Physics2D.BoxCast(
+                _touchingCollider.bounds.center, 
+                _touchingCollider.bounds.size,
+                0f, 
+                Vector2.down, 
+                _extraHeightTest, 
+                _platformLayerMask);
+            return raycastHit.collider != null;
         }
 
         private void ResetJump()

@@ -2187,7 +2187,10 @@ MonoBehaviour:
   _horizontalSpeed: 8
   _faceRight: 0
   _jumpForce: 500
-  _groundDistance: 0
+  _extraHeightTest: 0
+  _platformLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!114 &1022484569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2213,7 +2216,7 @@ GameObject:
   - component: {fileID: 1023317022}
   - component: {fileID: 1023317021}
   - component: {fileID: 1023317020}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TR_Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
