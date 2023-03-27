@@ -1,5 +1,7 @@
+using System;
 using Core.Enums;
 using Core.Tools;
+using Player.PlayerAnimation;
 using UnityEngine;
 
 namespace Player
@@ -17,6 +19,7 @@ namespace Player
         [SerializeField] private LayerMask _platformLayerMask;
 
         [SerializeField] private DirectionalCameraPair _cameras;
+        [SerializeField] private AnimatorController _animator;
         
         private Rigidbody2D _rigidbody;
         private CapsuleCollider2D _touchingCollider;
@@ -34,6 +37,13 @@ namespace Player
             {
                 UpdateJump();
             }
+            UpdateAnimations();
+        }
+
+        private void UpdateAnimations()
+        {
+            _animator.PlayAnimation(AnimationType.Idle, true);
+            _animator.PlayAnimation(AnimationType.Jump, _isJumping);
         }
 
         public void MoveHorizontally(float horizontalDirection)
