@@ -24,6 +24,7 @@ namespace Player
         private Rigidbody2D _rigidbody;
         private CapsuleCollider2D _touchingCollider;
         private bool _isJumping;
+        private Vector2 _movement;
         
         private void Start()
         {
@@ -43,11 +44,13 @@ namespace Player
         private void UpdateAnimations()
         {
             _animator.PlayAnimation(AnimationType.Idle, true);
+            _animator.PlayAnimation(AnimationType.Run, _movement.magnitude > 0);
             _animator.PlayAnimation(AnimationType.Jump, _isJumping);
         }
 
         public void MoveHorizontally(float horizontalDirection)
         {
+            _movement.x = horizontalDirection;
             SetHorizontalDirection(horizontalDirection);
             Vector2 velocity = _rigidbody.velocity;
             velocity.x = horizontalDirection * _horizontalSpeed;

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Player.PlayerAnimation
 {
@@ -14,7 +13,7 @@ namespace Player.PlayerAnimation
         }
 
         protected override void PlayAnimation(AnimationType animationType)
-        {
+        { 
             _animator.SetInteger(nameof(AnimationType), (int)animationType);
         }
     }
