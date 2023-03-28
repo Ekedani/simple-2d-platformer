@@ -16,9 +16,10 @@ namespace Player.PlayerAnimation
                 PlayAnimation(_currentAnimationType);
                 return false;
             }
-            if(_currentAnimationType >= animationType)
-                return false;
 
+            if (_currentAnimationType >= animationType)
+                return false;
+            
             _currentAnimationType = animationType;
             PlayAnimation(_currentAnimationType);
             return true;
