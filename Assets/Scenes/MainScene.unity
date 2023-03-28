@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 428052965}
   - component: {fileID: 428052969}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UIInputView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -576,6 +576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerEntity: {fileID: 1022484568}
+  _gameUIInputView: {fileID: 428052969}
 --- !u!4 &608417792
 Transform:
   m_ObjectHideFlags: 0
