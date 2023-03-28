@@ -1,27 +1,30 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Player
 {
     public class GameUIInputView : MonoBehaviour, IEntityInputSource
     {
-        public float HorizontalDirection { get; }
-        public bool Jump { get; }
+        [SerializeField] private Joystick _joystick;
+        [SerializeField] private Button _jumpButton;
+        public float HorizontalDirection => _joystick.Horizontal;
+        public bool Jump { get; private set; }
         
         private void Awake()
         {
-            throw new NotImplementedException();
+            _jumpButton.onClick.AddListener(() => Jump = true);
         }
 
         private void OnDestroy()
         {
-            throw new NotImplementedException();
+            _jumpButton.onClick.RemoveAllListeners();
         }
 
         
         public void ResetOneTimeActions()
         {
-            throw new NotImplementedException();
+            Jump = false;
         }
     }
 }

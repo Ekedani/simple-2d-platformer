@@ -322,6 +322,7 @@ GameObject:
   - component: {fileID: 428052967}
   - component: {fileID: 428052966}
   - component: {fileID: 428052965}
+  - component: {fileID: 428052969}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -412,6 +413,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &428052969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428052964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ae96f2c607453aa7e1f339cb975c80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _joystick: {fileID: 1835360830}
+  _jumpButton: {fileID: 1961298067}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,7 +603,7 @@ GameObject:
   - component: {fileID: 786208688}
   - component: {fileID: 786208687}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: JumpIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13901,6 +13916,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2929252283123773938, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
   m_PrefabInstance: {fileID: 1835360828}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1835360830 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2929252283123773951, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
+  m_PrefabInstance: {fileID: 1835360828}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45977bbae16431c46a013576a1aea384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1892545607
 GameObject:
   m_ObjectHideFlags: 0
@@ -35176,7 +35202,7 @@ GameObject:
   - component: {fileID: 1961298068}
   - component: {fileID: 1961298067}
   m_Layer: 5
-  m_Name: Image
+  m_Name: JumpButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
