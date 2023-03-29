@@ -1,17 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using Core.Services.Updater;
+using UnityEngine;
 
 namespace Core.InputReader
 {
-    public class ExternalDevicesInputReader : IEntityInputSource
+    public class ExternalDevicesInputReader : IEntityInputSource, IDisposable
     {
         public float HorizontalDirection => Input.GetAxisRaw("Horizontal");
         public bool Jump { get; private set;  }
-        public void OnUpdate()
+
+        public ExternalDevicesInputReader()
         {
-            if (Input.GetButtonDown("Jump"))
-            {
-                Jump = true;
-            }
+            ProjectUpdater.Instance.UpdateCalled += OnUpdate;
         }
 
         public void ResetOneTimeActions()
@@ -19,5 +19,14 @@ namespace Core.InputReader
             Jump = false;
         }
 
+        public void Dispose() => ProjectUpdater.Instance.UpdateCalled -= OnUpdate;
+
+        private void OnUpdate()
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                Jump = true;
+            }
+        }
     }
 }
