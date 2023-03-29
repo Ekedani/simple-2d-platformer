@@ -1,3 +1,5 @@
+using Core.Enums;
+using Core.Tools;
 using UnityEngine;
 
 namespace Player
@@ -7,12 +9,14 @@ namespace Player
     {
         [Header("HorizontalMovement")]
         [SerializeField] private float _horizontalSpeed;
-        [SerializeField] private bool _faceRight;
+        [SerializeField] private Direction _direction;
 
         [Header("Jump")]
         [SerializeField] private float _jumpForce;
         [SerializeField] private float _extraHeightTest;
         [SerializeField] private LayerMask _platformLayerMask;
+
+        [SerializeField] private DirectionalCameraPair _cameras;
         
         private Rigidbody2D _rigidbody;
         private CapsuleCollider2D _touchingCollider;
@@ -42,15 +46,17 @@ namespace Player
 
         private void SetHorizontalDirection(float horizontalDirection)
         {
-            if((_faceRight && horizontalDirection < 0) ||
-               (!_faceRight && horizontalDirection > 0)) 
+            if((_direction == Direction.Right && horizontalDirection < 0) ||
+               (_direction == Direction.Left && horizontalDirection > 0)) 
                 Flip();
         }
 
         private void Flip()
         {
             transform.Rotate(0, 180, 0);
-            _faceRight = !_faceRight;
+            _direction = _direction == Direction.Right ? Direction.Left : Direction.Right;
+            foreach (var cameraPair in _cameras.DirectionalCameras)
+                cameraPair.Value.enabled = cameraPair.Key == _direction;
         }
         
         public void Jump()
