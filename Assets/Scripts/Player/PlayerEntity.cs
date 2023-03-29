@@ -1,6 +1,4 @@
-using System;
 using Core.Animation;
-using Core.Enums;
 using Core.Movement.Controller;
 using Core.Movement.Data;
 using Core.Tools;
@@ -12,33 +10,29 @@ namespace Player
     public class PlayerEntity : MonoBehaviour
     {
         [SerializeField] private HorizontalMovementData _horizontalMovementData;
-
-        [Header("Jump")]
-        [SerializeField] private float _jumpForce;
-        [SerializeField] private float _extraHeightTest;
-        [SerializeField] private LayerMask _platformLayerMask;
-
+        [SerializeField] private JumpData _jumpData;
         [SerializeField] private DirectionalCameraPair _cameras;
         [SerializeField] private AnimatorController _animator;
         
         private Rigidbody2D _rigidbody;
         private CapsuleCollider2D _touchingCollider;
-        private bool _isJumping;
 
         private HorizontalMover _horizontalMover;
+        private Jumper _jumper;
         
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _touchingCollider = GetComponent<CapsuleCollider2D>();
             _horizontalMover = new HorizontalMover(_rigidbody, _horizontalMovementData);
+            _jumper = new Jumper(_rigidbody, _touchingCollider, _jumpData);
         }
 
         private void Update()
         {
-            if (_isJumping)
+            if (_jumper.IsJumping)
             {
-                UpdateJump();
+                _jumper.UpdateJump();
             }
             UpdateAnimations();
             UpdateCameras();
@@ -54,42 +48,12 @@ namespace Player
         {
             _animator.PlayAnimation(AnimationType.Idle, true);
             _animator.PlayAnimation(AnimationType.Run, _horizontalMover.IsMoving);
-            _animator.PlayAnimation(AnimationType.Jump, _isJumping);
+            _animator.PlayAnimation(AnimationType.Jump, _jumper.IsJumping);
         }
 
         public void MoveHorizontally(float horizontalDirection) =>
             _horizontalMover.MoveHorizontally(horizontalDirection);
-        
-        public void Jump()
-        {
-            if(_isJumping) 
-                return;
-            
-            _isJumping = true;
-            _rigidbody.AddForce(Vector2.up * _jumpForce);
-        }
 
-        private void UpdateJump()
-        {
-            if (_rigidbody.velocity.y < 0 && IsGrounded())
-                ResetJump();
-        }
-
-        private bool IsGrounded()
-        {
-            RaycastHit2D raycastHit = Physics2D.BoxCast(
-                _touchingCollider.bounds.center, 
-                _touchingCollider.bounds.size,
-                0f, 
-                Vector2.down, 
-                _extraHeightTest, 
-                _platformLayerMask);
-            return raycastHit.collider != null;
-        }
-
-        private void ResetJump()
-        {
-            _isJumping = false;
-        }
+        public void Jump() => _jumper.Jump();
     }
 }

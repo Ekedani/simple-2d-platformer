@@ -10370,6 +10370,12 @@ MonoBehaviour:
   _horizontalMovementData:
     <HorizontalSpeed>k__BackingField: 8
     <Direction>k__BackingField: 0
+  _jumpData:
+    <JumpForce>k__BackingField: 500
+    <ExtraHeightTest>k__BackingField: 0
+    <PlatformLayerMask>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 8
   _jumpForce: 500
   _extraHeightTest: 0
   _platformLayerMask:
