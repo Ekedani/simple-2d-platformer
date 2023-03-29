@@ -1,4 +1,4 @@
-﻿namespace Player.PlayerAnimation
+﻿namespace Core.Animation
 {
     public enum AnimationType
     {
