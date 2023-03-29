@@ -1,4 +1,6 @@
 ﻿using Core.Movement.Data;
+using StatsSystem;
+using StatsSystem.Enum;
 using UnityEngine;
 
 namespace Core.Movement.Controller
@@ -8,23 +10,29 @@ namespace Core.Movement.Controller
         private readonly Rigidbody2D _rigidbody;
         private readonly Collider2D _touchingCollider;
         private readonly JumpData _jumpData;
-        
+        private readonly IStatValueGiver _statValueGiver;
         public bool IsJumping { get; private set; }
 
-        public Jumper(Rigidbody2D rigidbody, Collider2D touchingCollider, JumpData jumpData)
+        public Jumper(
+            Rigidbody2D rigidbody,
+            Collider2D touchingCollider,
+            JumpData jumpData,
+            IStatValueGiver statValueGiver
+        )
         {
             _rigidbody = rigidbody;
             _touchingCollider = touchingCollider;
             _jumpData = jumpData;
+            _statValueGiver = statValueGiver;
         }
-        
+
         public void Jump()
         {
-            if(IsJumping) 
+            if (IsJumping)
                 return;
-            
+
             IsJumping = true;
-            _rigidbody.AddForce(Vector2.up * _jumpData.JumpForce);
+            _rigidbody.AddForce(Vector2.up * _statValueGiver.GetStatValue(StatType.JumpForce));
         }
 
         public void UpdateJump()
@@ -37,11 +45,11 @@ namespace Core.Movement.Controller
         {
             var bounds = _touchingCollider.bounds;
             RaycastHit2D raycastHit = Physics2D.BoxCast(
-                bounds.center, 
+                bounds.center,
                 bounds.size,
-                0f, 
-                Vector2.down, 
-                _jumpData.ExtraHeightTest, 
+                0f,
+                Vector2.down,
+                _jumpData.ExtraHeightTest,
                 _jumpData.PlatformLayerMask);
             return raycastHit.collider != null;
         }

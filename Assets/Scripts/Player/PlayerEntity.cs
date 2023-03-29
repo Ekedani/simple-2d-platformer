@@ -2,6 +2,7 @@ using Core.Animation;
 using Core.Movement.Controller;
 using Core.Movement.Data;
 using Core.Tools;
+using StatsSystem;
 using UnityEngine;
 
 namespace Player
@@ -13,19 +14,19 @@ namespace Player
         [SerializeField] private JumpData _jumpData;
         [SerializeField] private DirectionalCameraPair _cameras;
         [SerializeField] private AnimatorController _animator;
-        
+
         private Rigidbody2D _rigidbody;
         private CapsuleCollider2D _touchingCollider;
 
         private HorizontalMover _horizontalMover;
         private Jumper _jumper;
-        
-        private void Start()
+
+        public void Initialize(IStatValueGiver statValueGiver)
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _touchingCollider = GetComponent<CapsuleCollider2D>();
-            _horizontalMover = new HorizontalMover(_rigidbody, _horizontalMovementData);
-            _jumper = new Jumper(_rigidbody, _touchingCollider, _jumpData);
+            _horizontalMover = new HorizontalMover(_rigidbody, _horizontalMovementData, statValueGiver);
+            _jumper = new Jumper(_rigidbody, _touchingCollider, _jumpData, statValueGiver);
         }
 
         private void Update()
@@ -34,6 +35,7 @@ namespace Player
             {
                 _jumper.UpdateJump();
             }
+
             UpdateAnimations();
             UpdateCameras();
         }

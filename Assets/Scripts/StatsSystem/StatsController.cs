@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace StatsSystem
 {
-    public class StatsController : IDisposable
+    public class StatsController : IDisposable, IStatValueGiver
     {
         private readonly List<Stat> _currentStats;
         private readonly List<StatModificator> _activeModificators;
