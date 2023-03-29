@@ -10367,8 +10367,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d32af09f20de2e42945a69845b13ee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _horizontalSpeed: 8
-  _direction: 0
+  _horizontalMovementData:
+    <HorizontalSpeed>k__BackingField: 8
+    <Direction>k__BackingField: 0
   _jumpForce: 500
   _extraHeightTest: 0
   _platformLayerMask:

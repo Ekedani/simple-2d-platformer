@@ -1,6 +1,8 @@
 using System;
 using Core.Animation;
 using Core.Enums;
+using Core.Movement.Controller;
+using Core.Movement.Data;
 using Core.Tools;
 using UnityEngine;
 
@@ -9,9 +11,7 @@ namespace Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerEntity : MonoBehaviour
     {
-        [Header("HorizontalMovement")]
-        [SerializeField] private float _horizontalSpeed;
-        [SerializeField] private Direction _direction;
+        [SerializeField] private HorizontalMovementData _horizontalMovementData;
 
         [Header("Jump")]
         [SerializeField] private float _jumpForce;
@@ -24,12 +24,14 @@ namespace Player
         private Rigidbody2D _rigidbody;
         private CapsuleCollider2D _touchingCollider;
         private bool _isJumping;
-        private Vector2 _movement;
+
+        private HorizontalMover _horizontalMover;
         
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _touchingCollider = GetComponent<CapsuleCollider2D>();
+            _horizontalMover = new HorizontalMover(_rigidbody, _horizontalMovementData);
         }
 
         private void Update()
@@ -39,38 +41,24 @@ namespace Player
                 UpdateJump();
             }
             UpdateAnimations();
+            UpdateCameras();
+        }
+
+        private void UpdateCameras()
+        {
+            foreach (var cameraPair in _cameras.DirectionalCameras)
+                cameraPair.Value.enabled = cameraPair.Key == _horizontalMover.Direction;
         }
 
         private void UpdateAnimations()
         {
             _animator.PlayAnimation(AnimationType.Idle, true);
-            _animator.PlayAnimation(AnimationType.Run, _movement.magnitude > 0);
+            _animator.PlayAnimation(AnimationType.Run, _horizontalMover.IsMoving);
             _animator.PlayAnimation(AnimationType.Jump, _isJumping);
         }
 
-        public void MoveHorizontally(float horizontalDirection)
-        {
-            _movement.x = horizontalDirection;
-            SetHorizontalDirection(horizontalDirection);
-            Vector2 velocity = _rigidbody.velocity;
-            velocity.x = horizontalDirection * _horizontalSpeed;
-            _rigidbody.velocity = velocity;
-        }
-
-        private void SetHorizontalDirection(float horizontalDirection)
-        {
-            if((_direction == Direction.Right && horizontalDirection < 0) ||
-               (_direction == Direction.Left && horizontalDirection > 0)) 
-                Flip();
-        }
-
-        private void Flip()
-        {
-            transform.Rotate(0, 180, 0);
-            _direction = _direction == Direction.Right ? Direction.Left : Direction.Right;
-            foreach (var cameraPair in _cameras.DirectionalCameras)
-                cameraPair.Value.enabled = cameraPair.Key == _direction;
-        }
+        public void MoveHorizontally(float horizontalDirection) =>
+            _horizontalMover.MoveHorizontally(horizontalDirection);
         
         public void Jump()
         {
