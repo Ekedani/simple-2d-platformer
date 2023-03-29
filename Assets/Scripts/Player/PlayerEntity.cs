@@ -1,7 +1,7 @@
 using System;
+using Core.Animation;
 using Core.Enums;
 using Core.Tools;
-using Player.PlayerAnimation;
 using UnityEngine;
 
 namespace Player
