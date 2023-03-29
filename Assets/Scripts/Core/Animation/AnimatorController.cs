@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Core.Animation
@@ -5,6 +6,9 @@ namespace Core.Animation
     public abstract class AnimatorController : MonoBehaviour
     {
         private AnimationType _currentAnimationType;
+        
+        public event Action ActionRequested;
+        public event Action AnimationEnded;
 
         public bool PlayAnimation(AnimationType animationType, bool active)
         {
@@ -26,5 +30,9 @@ namespace Core.Animation
         }
 
         protected abstract void PlayAnimation(AnimationType animationType);
+        
+        protected void OnActionRequested() => ActionRequested?.Invoke();
+
+        protected void OnAnimationEnded() => AnimationEnded?.Invoke();
     }
 }
